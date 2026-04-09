@@ -50,20 +50,13 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "N", "C4"]
-ignore = ["E501"]
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]
-"tests/*" = ["N802"]
-"core/pattern_parser.py" = ["N802"]
+ignore = ["E501", "ANN", "ARG"]
 
 [tool.mypy]
 python_version = "3.11"
 strict = false
 warn_return_any = false
 warn_unused_ignores = false
-ignore_missing_imports = true
-disallow_untyped_defs = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
