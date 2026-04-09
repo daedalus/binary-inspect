@@ -1,8 +1,17 @@
 """Magic byte detection for file format identification."""
 
+from typing import TypedDict
+
 from .models import MagicMatch
 
-MAGIC_SIGNATURES = {
+
+class Signature(TypedDict):
+    magic: bytes | str
+    description: str
+    confidence: float
+
+
+MAGIC_SIGNATURES: dict[str, Signature] = {
     "PE": {
         "magic": b"MZ",
         "description": "Windows Portable Executable",

@@ -104,8 +104,8 @@ class PatternParser:
     def __init__(self):
         """Initialize parser with grammar."""
         self._parser = Lark(PATTERN_GRAMMAR, parser="lalr")
-        self._structs: dict[str, list] = {}
-        self._placements: list[dict] = []
+        self._structs: dict[str, list[dict[str, str]]] = {}
+        self._placements: list[dict[str, str]] = []
 
     def parse(self, source: str) -> dict:
         """Parse pattern source code.
@@ -148,8 +148,8 @@ class PatternParser:
         ctx: dict[str, int] = {}
 
         for placement in self._placements:
-            field_type = placement.get("field_type")
-            name = placement.get("name")
+            field_type = placement.get("field_type", "")
+            name = placement.get("name", "")
             offset_expr = placement.get("offset")
 
             if offset_expr:
@@ -211,10 +211,10 @@ class PatternParser:
             size = 0
             for field in self._structs[field_type]:
                 if field.get("type") == "padding":
-                    size += field.get("size", 0)
+                    size += int(field.get("size", 0))
                     continue
-                child_type = field.get("field_type")
-                child_name = field.get("name")
+                child_type = field.get("field_type", "")
+                child_name = field.get("name", "")
                 child_val, child_size = self._read_value(
                     reader, child_type, offset + size
                 )

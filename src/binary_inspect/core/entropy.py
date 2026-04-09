@@ -62,7 +62,7 @@ class EntropyAnalyzer:
         Returns:
             Dict mapping byte value to frequency
         """
-        hist = {}
+        hist: dict[int, int] = {}
         for byte in data:
             hist[byte] = hist.get(byte, 0) + 1
         return hist

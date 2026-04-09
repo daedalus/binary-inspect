@@ -157,8 +157,8 @@ class BinarySearch:
         Returns:
             List of found strings with offset
         """
-        results = []
-        current = []
+        results: list[dict[str, int | str]] = []
+        current: list[str] = []
         start_offset = 0
 
         for i, byte in enumerate(self.data):
@@ -240,7 +240,7 @@ class BinarySearch:
         """
         import struct
 
-        results = {"u8": [], "u16": [], "u32": [], "u64": []}
+        results: dict[str, list[int]] = {"u8": [], "u16": [], "u32": [], "u64": []}
 
         # Search for various sizes - skip u8 if value > 255
         sizes_to_try = []
