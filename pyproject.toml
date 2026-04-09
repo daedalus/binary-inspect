@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "binary-inspect"
+version = "0.1.0"
+description = "Python binary analysis tool for reverse engineering - detect formats, parse structures, inspect values"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Daniel Clavijo", email = "clavijodario@gmail.com"}
+]
+dependencies = [
+    "lark>=1.2.0",
+    "rich>=13.0.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "hatch",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+]
+lint = [
+    "ruff",
+    "mypy",
+]
+all = ["binary-inspect[dev,test,lint]"]
+
+[project.scripts]
+binary-inspect = "binary_inspect.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/binary_inspect"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/binary_inspect"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "N", "C4"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["N802"]
+"core/pattern_parser.py" = ["N802"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+warn_return_any = false
+warn_unused_ignores = false
+ignore_missing_imports = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short --cov=src --cov-fail-under=50"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
